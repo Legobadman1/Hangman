@@ -9,6 +9,17 @@ for _ in range(len(word)):
     blank.append("_")
 blankword = " ".join(blank)
 
+def initialize_game():
+    global word, blank, lives
+    word = randomword()
+    blank = ["_" for _ in word]
+    lives = 8
+    label1.config(text=" ".join(blank))
+    canvas1.delete("all")
+    answer.config(state=NORMAL)
+    submit.config(state=NORMAL)
+    frame3.place_forget()
+    frame4.place_forget()
 
 def submitting(key):
     global lives
@@ -43,15 +54,14 @@ def submitting(key):
             canvas1.create_line(250, 375, 300, 425, width=5)
             label1.config(text=word)
             answer.config(state=DISABLED)
-            submit.config(state=DISABLED)           
-            label2.place(relx=0.5, rely=0.5, anchor=CENTER)
-    
+            submit.config(state=DISABLED)
+            frame3.place(relx=0.5, rely=0.5, anchor=CENTER)
+
     if "_" not in blank:
         label1.config(text=word)
         answer.config(state=DISABLED)
-        submit.config(state=DISABLED)           
-        label3.place(relx=0.5, rely=0.5, anchor=CENTER)
-
+        submit.config(state=DISABLED)
+        frame4.place(relx=0.5, rely=0.5, anchor=CENTER)
 
 
 root = Tk()
@@ -70,12 +80,19 @@ frame1.pack()
 canvas1 = Canvas(frame1, width=500, height=500)
 canvas1.pack()
 
+frame3 = Frame(root)
+label2 = Label(frame3, text="You lost! 😞", font=("Courier New", 25, "bold"), bg="#d65864")
+label2.pack()
+play1 = Button(frame3, text="Play again", command=initialize_game, font=("Courier New", 25, "bold"), bg="#5c5c5c", fg="#3ad406", activebackground="#000000", activeforeground="#3ad406", bd=5)
+play1.pack()
 
-label2 = Label(root, text="You lost! 😞", font=("Courier New", 25, "bold"), bg="#d65864")
+frame4 = Frame(root)
+label3 = Label(frame4, text="You won! 🤩", font=("Courier New", 25, "bold"), bg="#6fde7e")
+label3.pack()
+play2 = Button(frame4, text="Play again", command=initialize_game, font=("Courier New", 25, "bold"), bg="#5c5c5c", fg="#3ad406", activebackground="#000000", activeforeground="#3ad406", bd=5)
+play2.pack()
 
-label3 = Label(root, text="You won! 🤩", font=("Courier New", 25, "bold"), bg="#6fde7e")
-
-answer = Entry(root, width=25, font=("Courier New", 25))
+answer = Entry(root, width=25, font=("Courier New", 25), state=NORMAL)
 answer.pack()
 root.bind("<Return>", submitting)
 
@@ -91,6 +108,7 @@ submit = Button(
     activebackground="#727782",
     relief=RAISED,
     command=submitting,
+    state=NORMAL
 )
 submit.pack(side="left")
 exitB = Button(
