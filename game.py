@@ -91,7 +91,7 @@ def submitting(key):
 
 root = Tk()
 smile = PhotoImage(file="smile.png")
-root.geometry("600x750")
+root.geometry("600x675")
 root.config(bg="light blue")
 root.title("Hangman")
 root.iconphoto(True, smile)
@@ -102,7 +102,7 @@ label1.pack()
 
 frame1 = Frame(root)
 frame1.pack()
-canvas1 = Canvas(frame1, width=500, height=500)
+canvas1 = Canvas(frame1, width=500, height=450)
 canvas1.pack()
 
 frame3 = Frame(root)
