@@ -15,22 +15,17 @@ blankword = " ".join(blank)
 def initialize_game_animals():
     global word, blank, lives
     word = hangmanwords.randomanimal()
-    blank = ["_" for _ in word]
-    lives = 8
-    label1.config(text=" ".join(blank))
-    canvas1.delete("all")
-    answer.config(state=NORMAL)
-    submit.config(state=NORMAL)
-    frame3.place_forget()
-    frame4.place_forget()
-    wrong.clear()
-    label5.config(text="")
-    frame5.destroy()
+    initialise_game()
 
 
 def initialize_game_location():
-    global word, blank, lives
+    global word
     word = hangmanwords.randomlocation()
+    initialise_game()
+
+
+def initialise_game():
+    global word, blank, lives
     blank = ["_" for _ in word]
     lives = 8
     label1.config(text=" ".join(blank))
@@ -96,7 +91,7 @@ root.config(bg="light blue")
 root.title("Hangman")
 root.iconphoto(True, smile)
 
-
+blankword = ""
 label1 = Label(root, text=blankword, font=("Courier New", 30, "bold"), bg="light blue")
 label1.pack()
 
@@ -165,12 +160,16 @@ play4 = Button(
 )
 play4.pack()
 
-answer = Entry(root, width=25, font=("Courier New", 25), state=DISABLED)
-answer.pack()
-root.bind("<Return>", submitting)
-
-frame2 = Frame(root)
+frame2 = Frame(root, bg="light blue", width=500)
 frame2.pack()
+
+answer = Entry(frame2, width=15, font=("Courier New", 25), state=DISABLED)
+answer.pack(side="left")
+answer.bind("<Return>", submitting)
+
+label6 = Label(frame2, text="", bg="light blue")
+label6.pack(side="left")
+
 submit = Button(
     frame2,
     text="Enter",
@@ -183,19 +182,20 @@ submit = Button(
     command=submitting,
     state=DISABLED,
 )
-submit.pack(side="left")
+submit.pack(side="right")
+
 exitB = Button(
-    frame2,
+    root,
     text="Quit",
     font=("Courier New", 18, "bold"),
     padx=10,
     pady=5,
-    bg="#abb2c7",
-    activebackground="#727782",
+    bg="#c70404",
+    activebackground="#99000f",
     relief=RAISED,
     command=quit,
 )
-exitB.pack(side="left")
+exitB.place(relx=1, rely=1, anchor="se")
 
 label4 = Label(
     root, text="Wrong letters:", font=("Courier New", 18, "bold"), bg="light blue"
