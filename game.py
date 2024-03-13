@@ -5,6 +5,8 @@ from hangman import randomword
 word = randomword()
 blank = []
 lives = 8
+wrong = set()
+
 for _ in range(len(word)):
     blank.append("_")
 blankword = " ".join(blank)
@@ -20,6 +22,8 @@ def initialize_game():
     submit.config(state=NORMAL)
     frame3.place_forget()
     frame4.place_forget()
+    wrong.clear()
+    label5.config(text="")
 
 def submitting(key):
     global lives
@@ -35,6 +39,8 @@ def submitting(key):
                 blank[count] = i
                 label1.config(text=" ".join(blank))
     else:
+        wrong.add(guess)
+        label5.config(text=", ".join(list(wrong)))
         lives -= 1
         if lives == 7:
             canvas1.create_rectangle(0, 80, 300, 90, fill="brown", width=5)
@@ -66,7 +72,7 @@ def submitting(key):
 
 root = Tk()
 smile = PhotoImage(file="smile.png")
-root.geometry("600x700")
+root.geometry("600x750")
 root.config(bg="light blue")
 root.title("Hangman")
 root.iconphoto(True, smile)
@@ -123,5 +129,11 @@ exitB = Button(
     command=quit,
 )
 exitB.pack(side="left")
+
+label4 = Label(root, text="Wrong letters:", font=("Courier New", 18, "bold"), bg="light blue")
+label4.pack()
+
+label5 = Label(root, text="", font=("Courier New", 18, "bold"), bg="light blue")
+label5.pack()
 
 root.mainloop()
