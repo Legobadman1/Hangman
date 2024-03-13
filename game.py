@@ -1,8 +1,8 @@
 from tkinter import *
-from hangman import randomword
+import hangmanwords
 
 
-word = randomword()
+word = hangmanwords.randomlocation()
 blank = []
 lives = 8
 wrong = set()
@@ -11,9 +11,10 @@ for _ in range(len(word)):
     blank.append("_")
 blankword = " ".join(blank)
 
-def initialize_game():
+
+def initialize_game_animals():
     global word, blank, lives
-    word = randomword()
+    word = hangmanwords.randomanimal()
     blank = ["_" for _ in word]
     lives = 8
     label1.config(text=" ".join(blank))
@@ -24,6 +25,24 @@ def initialize_game():
     frame4.place_forget()
     wrong.clear()
     label5.config(text="")
+    frame5.destroy()
+
+
+def initialize_game_location():
+    global word, blank, lives
+    word = hangmanwords.randomlocation()
+    blank = ["_" for _ in word]
+    lives = 8
+    label1.config(text=" ".join(blank))
+    canvas1.delete("all")
+    answer.config(state=NORMAL)
+    submit.config(state=NORMAL)
+    frame3.place_forget()
+    frame4.place_forget()
+    wrong.clear()
+    label5.config(text="")
+    frame5.destroy()
+
 
 def submitting(key):
     global lives
@@ -87,18 +106,66 @@ canvas1 = Canvas(frame1, width=500, height=500)
 canvas1.pack()
 
 frame3 = Frame(root)
-label2 = Label(frame3, text="You lost! 😞", font=("Courier New", 25, "bold"), bg="#d65864")
+label2 = Label(
+    frame3, text="You lost! 😞", font=("Courier New", 25, "bold"), bg="#d65864"
+)
 label2.pack()
-play1 = Button(frame3, text="Play again", command=initialize_game, font=("Courier New", 25, "bold"), bg="#5c5c5c", fg="#3ad406", activebackground="#000000", activeforeground="#3ad406", bd=5)
+play1 = Button(
+    frame3,
+    text="Play animals",
+    command=initialize_game_animals,
+    font=("Courier New", 25, "bold"),
+    bg="#5c5c5c",
+    fg="#3ad406",
+    activebackground="#000000",
+    activeforeground="#3ad406",
+    bd=5,
+)
 play1.pack()
-
-frame4 = Frame(root)
-label3 = Label(frame4, text="You won! 🤩", font=("Courier New", 25, "bold"), bg="#6fde7e")
-label3.pack()
-play2 = Button(frame4, text="Play again", command=initialize_game, font=("Courier New", 25, "bold"), bg="#5c5c5c", fg="#3ad406", activebackground="#000000", activeforeground="#3ad406", bd=5)
+play2 = Button(
+    frame3,
+    text="Play locations",
+    command=initialize_game_location,
+    font=("Courier New", 25, "bold"),
+    bg="#5c5c5c",
+    fg="#3ad406",
+    activebackground="#000000",
+    activeforeground="#3ad406",
+    bd=5,
+)
 play2.pack()
 
-answer = Entry(root, width=25, font=("Courier New", 25), state=NORMAL)
+frame4 = Frame(root)
+label3 = Label(
+    frame4, text="You won! 🤩", font=("Courier New", 25, "bold"), bg="#6fde7e"
+)
+label3.pack()
+play3 = Button(
+    frame4,
+    text="Play animals",
+    command=initialize_game_animals,
+    font=("Courier New", 25, "bold"),
+    bg="#5c5c5c",
+    fg="#3ad406",
+    activebackground="#000000",
+    activeforeground="#3ad406",
+    bd=5,
+)
+play3.pack()
+play4 = Button(
+    frame4,
+    text="Play locations",
+    command=initialize_game_location,
+    font=("Courier New", 25, "bold"),
+    bg="#5c5c5c",
+    fg="#3ad406",
+    activebackground="#000000",
+    activeforeground="#3ad406",
+    bd=5,
+)
+play4.pack()
+
+answer = Entry(root, width=25, font=("Courier New", 25), state=DISABLED)
 answer.pack()
 root.bind("<Return>", submitting)
 
@@ -114,7 +181,7 @@ submit = Button(
     activebackground="#727782",
     relief=RAISED,
     command=submitting,
-    state=NORMAL
+    state=DISABLED,
 )
 submit.pack(side="left")
 exitB = Button(
@@ -130,10 +197,41 @@ exitB = Button(
 )
 exitB.pack(side="left")
 
-label4 = Label(root, text="Wrong letters:", font=("Courier New", 18, "bold"), bg="light blue")
+label4 = Label(
+    root, text="Wrong letters:", font=("Courier New", 18, "bold"), bg="light blue"
+)
 label4.pack()
 
 label5 = Label(root, text="", font=("Courier New", 18, "bold"), bg="light blue")
 label5.pack()
+
+frame5 = Frame(root)
+frame5.place(relx=0.5, rely=0.5, anchor=CENTER)
+animal = Button(
+    frame5,
+    text="Animals",
+    command=initialize_game_animals,
+    font=("Courier New", 18, "bold"),
+    bg="#606175",
+    activebackground="#3f3f4d",
+    fg="red",
+    activeforeground="red",
+    bd=5,
+    relief=RAISED
+)
+animal.pack()
+location = Button(
+    frame5,
+    text="General locations",
+    command=initialize_game_location,
+    font=("Courier New", 18, "bold"),
+    bg="#606175",
+    activebackground="#3f3f4d",
+    fg="light green",
+    activeforeground="light green",
+    bd=5,
+    relief=RAISED
+)
+location.pack()
 
 root.mainloop()
